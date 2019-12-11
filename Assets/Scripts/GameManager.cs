@@ -1,18 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //===================================================
+    //Fields
     public float ChestCloseOnFailDelay;
 
-    WaitForSeconds _delay;
+    WaitForSeconds _closeDelay;
     Coroutine _chestsClosing;
     ChestController _firstChest;
 
+    //===================================================
+    //Properties
+    public bool GameIsRunning { get; set;} = true;
+
+    //===================================================
+    //Events
+    public event Action<bool> PlayerMovedSuccessfully;
+
+    //===================================================
+    //Methods
     // Start is called just before any of the Update methods is called the first time
     private void Start()
     {
-        _delay = new WaitForSeconds(ChestCloseOnFailDelay);
+        _closeDelay = new WaitForSeconds(ChestCloseOnFailDelay);
 
         ChestController.ChestOpened += HandleChestOpening;
     }
@@ -25,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void HandleChestOpening(ChestController chest)
     {
-        if(_chestsClosing != null)//If currently other chests are on delay to close
+        if(_chestsClosing != null || !GameIsRunning)//If currently other chests are on delay to close or game ended
         {
             chest.Close();//Immediately
             return;
@@ -34,24 +47,25 @@ public class GameManager : MonoBehaviour
         if(_firstChest == null)
         {
             _firstChest = chest;
-            return;
         }
-        else/*if(_lastOpenedChest != null)*/
+        else/*if(_firstChest != null)*/
         {
             if(_firstChest.ItemIndex == chest.ItemIndex)
             {
                 _firstChest = null;
+                PlayerMovedSuccessfully?.Invoke(true);
             }
             else
             {
                 _chestsClosing = StartCoroutine(CloseChestsAfterDelay(chest));
+                PlayerMovedSuccessfully?.Invoke(false);
             }
         }
     }
 
     IEnumerator CloseChestsAfterDelay(ChestController secondChest)
     {
-        yield return _delay;
+        yield return _closeDelay;
 
         _firstChest.Close();
         secondChest.Close();
