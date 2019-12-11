@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     //===================================================
     //Properties
-    public bool GameIsRunning { get; set;} = true;
+    public bool GameIsRunning { get; set; } = true;
 
     //===================================================
     //Events
@@ -38,19 +38,19 @@ public class GameManager : MonoBehaviour
 
     void HandleChestOpening(ChestController chest)
     {
-        if(_chestsClosing != null || !GameIsRunning)//If currently other chests are on delay to close or game ended
+        if (_chestsClosing != null || !GameIsRunning)//If currently other chests are on delay to close or game ended
         {
             chest.Close();//Immediately
             return;
         }
 
-        if(_firstChest == null)
+        if (_firstChest == null)
         {
             _firstChest = chest;
         }
         else/*if(_firstChest != null)*/
         {
-            if(_firstChest.ItemIndex == chest.ItemIndex)
+            if (_firstChest.ItemIndex == chest.ItemIndex)
             {
                 _firstChest = null;
                 PlayerMovedSuccessfully?.Invoke(true);

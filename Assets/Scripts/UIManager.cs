@@ -37,11 +37,11 @@ public class UIManager : MonoBehaviour
         _movesLeft--;
         MovesCounter.text = _movesLeft.ToString();
 
-        if(success)
+        if (success)
         {
             _countToVictory--;
 
-            if(_countToVictory == 0)
+            if (_countToVictory == 0)
             {
                 GameOverText.text = "You win";
                 EndGame();

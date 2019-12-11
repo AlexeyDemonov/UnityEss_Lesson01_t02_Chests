@@ -22,6 +22,6 @@ public class ItemsToChestsDispenser : MonoBehaviour
                 chests[randomChestIndex].PlaceItem(item: itemClone, index: itemIndex);
                 chests.RemoveAt(randomChestIndex);
             }
-        }       
+        }
     }
 }

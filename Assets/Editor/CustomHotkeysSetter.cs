@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 public class CustomHotkeysSetter
 {
@@ -17,7 +17,7 @@ public class CustomHotkeysSetter
     {
         var selectedObject = Selection.activeGameObject;
 
-        if(selectedObject != null)
+        if (selectedObject != null)
         {
             selectedObject.transform.position = Vector3.zero;
             selectedObject.transform.rotation = Quaternion.identity;
