@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
                 EndGame();
             }
         }
-        else if (_movesLeft == 0)
+        else if (_movesLeft < _countToVictory)
         {
             GameOverText.text = "You lose";
             EndGame();
